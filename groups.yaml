@@ -1,0 +1,12 @@
+persons:
+  name: Persons
+  entities:
+    - person.andrey
+    - person.daria
+room_lights:
+  name: Room lights
+  entities:
+    - light.room_light_4ch_relay1
+    - light.room_light_4ch_relay2
+    - light.room_light_4ch_relay3
+    - light.room_light_4ch_relay4

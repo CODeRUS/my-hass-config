@@ -1,0 +1,32 @@
+- platform: google_translate
+  language: ru
+  service_name: google_ru_say
+  cache: true
+  cache_dir: /config/www/tts
+  time_memory: 300
+  base_url: !secret local_base_url
+- platform: google_translate
+  language: en
+  service_name: google_en_say
+  cache: true
+  cache_dir: /config/www/tts
+  time_memory: 300
+  base_url: !secret local_base_url
+- platform: yandextts
+  api_key: !secret yandex_api_key
+  language: ru-RU
+  service_name: yandex_api_ru_say
+  voice: oksana
+  cache: true
+  cache_dir: /config/www/tts
+  time_memory: 300
+  base_url: !secret local_base_url
+- platform: yandextts
+  api_key: !secret yandex_api_key
+  language: ru-RU
+  service_name: yandex_api_en_say
+  voice: oksana
+  cache: true
+  cache_dir: /config/www/tts
+  time_memory: 300
+  base_url: !secret local_base_url

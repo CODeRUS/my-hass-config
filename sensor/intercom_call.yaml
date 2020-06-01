@@ -1,0 +1,6 @@
+- platform: rest
+  name: Intercom Call
+  resource: !secret intercom_call_check_url
+  headers: !secret intercom_headers
+  scan_interval: 5
+  value_template: '{{ value_json.state }}'

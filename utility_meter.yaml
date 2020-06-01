@@ -1,0 +1,15 @@
+monthly_kitchen_clear_water:
+  source: counter.water_consumption_kitchen_clean
+  cycle: monthly
+monthly_kitchen_hot_water:
+  source: counter.water_consumption_kitchen_hot
+  cycle: monthly
+monthly_kitchen_cold_water:
+  source: counter.water_consumption_kitchen_cold
+  cycle: monthly
+monthly_bathroom_hot_water:
+  source: counter.water_consumption_bathroom_hot
+  cycle: monthly
+monthly_bathroom_cold_water:
+  source: counter.water_consumption_bathroom_cold
+  cycle: monthly

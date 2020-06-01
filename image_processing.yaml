@@ -1,0 +1,14 @@
+- platform: deepstack_face
+  ip_address: !secret deepstack_host
+  port: !secret deepstack_port
+  timeout: 1
+  detect_only: False
+  save_file_folder: /config/www/image_processing
+  save_timestamped_file: True
+  source:
+    - entity_id: camera.fisheye_ffmpeg
+      name: indoor_deepstack
+    - entity_id: camera.intercom
+      name: intercom_deepstack
+    - entity_id: camera.outdoor_ffmpeg
+      name: outdoor_deepstack

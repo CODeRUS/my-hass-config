@@ -1,0 +1,15 @@
+water_consumption_bathroom_cold:
+  initial: 133972
+  step: 10
+water_consumption_bathroom_hot:
+  initial: 102876
+  step: 10
+water_consumption_kitchen_cold:
+  initial: 15649
+  step: 10
+water_consumption_kitchen_hot:
+  initial: 52001
+  step: 10
+water_consumption_kitchen_clean:
+  initial: 2782
+  step: 10

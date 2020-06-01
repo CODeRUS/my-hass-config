@@ -1,0 +1,64 @@
+- &keypad_20_btn
+  platform: mqtt
+  name: "keypad_20_btn_1"
+  state_topic: "zigbee2mqtt/0x00124b001f3d86a9"
+  value_template: '{{ value_json.btn_1 }}'
+  payload_on: "True"
+  payload_off: "False"
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_2"
+  value_template: '{{ value_json.btn_2 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_3"
+  value_template: '{{ value_json.btn_3 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_4"
+  value_template: '{{ value_json.btn_4 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_5"
+  value_template: '{{ value_json.btn_5 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_6"
+  value_template: '{{ value_json.btn_6 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_7"
+  value_template: '{{ value_json.btn_7 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_8"
+  value_template: '{{ value_json.btn_8 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_9"
+  value_template: '{{ value_json.btn_9 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_10"
+  value_template: '{{ value_json.btn_10 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_11"
+  value_template: '{{ value_json.btn_11 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_12"
+  value_template: '{{ value_json.btn_12 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_13"
+  value_template: '{{ value_json.btn_13 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_14"
+  value_template: '{{ value_json.btn_14 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_15"
+  value_template: '{{ value_json.btn_15 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_16"
+  value_template: '{{ value_json.btn_16 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_17"
+  value_template: '{{ value_json.btn_17 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_18"
+  value_template: '{{ value_json.btn_18 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_19"
+  value_template: '{{ value_json.btn_19 }}'
+- <<: *keypad_20_btn
+  name: "keypad_20_btn_20"
+  value_template: '{{ value_json.btn_20 }}'

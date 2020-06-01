@@ -1,0 +1,48 @@
+devlamp_speed:
+  name: Скорость эффектов
+  initial: 10
+  min: 0
+  max: 255
+  step: 1
+devlamp_scale:
+  name: Настройка эффектов
+  initial: 1
+  min: 0
+  max: 100
+  step: 1
+darialamp_speed:
+  name: Скорость эффектов
+  initial: 10
+  min: 0
+  max: 255
+  step: 1
+darialamp_scale:
+  name: Настройка эффектов
+  initial: 1
+  min: 0
+  max: 100
+  step: 1
+bedlamp_speed:
+  name: Скорость эффектов
+  initial: 10
+  min: 0
+  max: 255
+  step: 1
+bedlamp_scale:
+  name: Настройка эффектов
+  initial: 1
+  min: 0
+  max: 100
+  step: 1
+mikettle_set_temp:
+  name: Температура нагрева
+  initial: 40
+  min: 40
+  max: 90
+  step: 1
+mikettle_set_time:
+  name: Поддерживать температуру
+  initial: 0
+  min: 0
+  max: 12
+  step: 0.5

@@ -1,0 +1,7 @@
+- platform: yr
+  name: Погода
+  forecast: 12
+  monitored_conditions:
+    - temperature
+    - precipitation
+    - windSpeed

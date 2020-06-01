@@ -1,0 +1,29 @@
+- platform: rest
+  name: Frigate Debug
+  resource: !secret frigate_url
+  scan_interval: 5
+  json_attributes:
+    - intercom
+    - door
+    - indoor
+  value_template: 'OK'
+- platform: template
+  sensors:
+    intercom_fps: 
+      value_template: '{{ states.sensor.frigate_debug.attributes["intercom"]["camera_fps"] }}'
+      unit_of_measurement: 'FPS'
+    intercom_skipped_fps: 
+      value_template: '{{ states.sensor.frigate_debug.attributes["intercom"]["skipped_fps"] }}'
+      unit_of_measurement: 'FPS'
+    intercom_detection_fps: 
+      value_template: '{{ states.sensor.frigate_debug.attributes["intercom"]["detection_fps"] }}'
+      unit_of_measurement: 'FPS'
+    door_fps: 
+      value_template: '{{ states.sensor.frigate_debug.attributes["door"]["camera_fps"] }}'
+      unit_of_measurement: 'FPS'
+    door_skipped_fps: 
+      value_template: '{{ states.sensor.frigate_debug.attributes["door"]["skipped_fps"] }}'
+      unit_of_measurement: 'FPS'
+    door_detection_fps: 
+      value_template: '{{ states.sensor.frigate_debug.attributes["door"]["detection_fps"] }}'
+      unit_of_measurement: 'FPS'

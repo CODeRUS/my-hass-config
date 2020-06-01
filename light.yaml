@@ -1,0 +1,28 @@
+- platform: switch
+  name: Коридор
+  entity_id: switch.0x00158d00016c976f_switch_left
+- platform: switch
+  name: Туалет
+  entity_id: switch.0x00158d00016c976f_switch_right
+- platform: switch
+  name: Прихожая
+  entity_id: switch.0x00158d00018771cd_switch
+- platform: switch
+  name: Кухня
+  entity_id: switch.0x00158d0001a4c32a_switch
+- platform: xiaomi_gateway_light
+  scan_interval: 1
+  host: !secret xiaomi_gateway_host
+  token: !secret xiaomi_gateway_token
+- platform: mqtt
+  name: slsgw
+  availability_topic: "slsgw/bridge/state"
+  command_topic: "slsgw/led"
+  rgb_command_topic: "slsgw/led"
+  rgb_command_template: >-
+    {
+      "mode": "manual",
+      "hex": "#{{ '%02x%02x%02x' | format(red, green, blue) }}"
+    }
+  on_command_type: "brightness"
+  payload_off: '{"mode": "off"}'

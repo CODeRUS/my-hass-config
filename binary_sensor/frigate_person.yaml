@@ -1,0 +1,15 @@
+- name: Camera Door Person
+  platform: mqtt
+  state_topic: "frigate/door/person"
+  device_class: motion
+  availability_topic: "frigate/available"
+- name: Camera Intercom Person
+  platform: mqtt
+  state_topic: "frigate/door/person"
+  device_class: motion
+  availability_topic: "frigate/available"
+- name: Camera Indoor Person
+  platform: mqtt
+  state_topic: "frigate/indoor/person"
+  device_class: motion
+  availability_topic: "frigate/available"

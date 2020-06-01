@@ -1,0 +1,52 @@
+project_id: !secret ga_project_id
+# api_key: !secret ga_api_key
+service_account: !include google-assistant-project.json
+report_state: true
+secure_devices_pin: !secret ga_secure_pin
+exposed_domains:
+  - light
+  - vacuum
+  - climate
+  - script
+  - scene
+  - camera
+entity_config:
+  switch.intercom_switch:
+    expose: true
+  switch.sonoff_doorlock:
+    expose: true
+  light.gateway_light_34ce008141af:
+    expose: false
+  vacuum.rockrobo:
+    expose: false
+  script.script1:
+    name: "Открой дверь"
+  light.anavi_miracle_controller_led1:
+    expose: false
+  light.anavi_miracle_controller_led2:
+    name: "Ёлочка"
+    aliases:
+      - Елка
+      - Ёлка
+      - Елочка
+      - Ёлочка
+      - Йолка
+      - Елку
+      - Ёлку
+      - Елочку
+      - Ёлочку
+      - Йолку
+      - Елки
+      - Ёлки
+      - Елочки
+      - Ёлочки
+      - Йолки
+  light.kitchen_rgb:
+    name: "Подсветка"
+    aliases:
+      - Подсветка
+      - Подсветку
+      - Подсветки
+      - Лента
+      - Ленту
+      - Ленты

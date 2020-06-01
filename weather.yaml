@@ -1,0 +1,2 @@
+# - platform: yandex_weather
+#   api_key: !secret yandex_weather_apikey

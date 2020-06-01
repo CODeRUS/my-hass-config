@@ -1,0 +1,30 @@
+filter:
+  include_domains:
+    - switch
+    - light
+    - vacuum
+  include_entities:
+    - media_player.televizor
+    - media_player.yandex_intents
+    - climate.conditioner
+    - sensor.0x00158d0001d5c48b_humidity
+    - sensor.0x00158d000227d566_humidity
+    - sensor.0x00158d0003a002da_humidity
+    - sensor.0x00158d0003a00374_humidity
+    - sensor.0x00158d0003cb89af_humidity
+    - sensor.0x00158d0001d5c48b_temperature
+    - sensor.0x00158d000227d566_temperature
+    - sensor.0x00158d0003a002da_temperature
+    - sensor.0x00158d0003a00374_temperature
+    - sensor.0x00158d0003cb89af_temperature
+  exclude_entities:
+    - vacuum.rockrobo
+    - switch.zigbee_permit_join
+    - light.devlamp
+    - light.gateway_light_34ce008141af
+    - switch.0x00158d00016c976f_switch_left
+    - switch.0x00158d00016c976f_switch_right
+    - switch.0x00158d00018771cd_switch
+    - switch.0x00158d0001a4c32a_switch
+    - light.anavi_miracle_controller_led1
+    - light.room_light_4ch_led

@@ -1,0 +1,3 @@
+db_url: postgres://@/hass
+purge_keep_days: 360
+exclude: !include history_exclude.yaml

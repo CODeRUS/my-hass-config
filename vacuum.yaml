@@ -1,0 +1,4 @@
+- platform: xiaomi_miio
+  name: MiCleaner
+  host: !secret xiaomi_vacuum_host
+  token: !secret xiaomi_vacuum_token

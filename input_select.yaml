@@ -1,0 +1,9 @@
+zigbee_debug_level:
+  name: Zigbee debug level
+  options:
+    - debug
+    - info
+    - warn
+    - error
+  initial: info
+  icon: mdi:bug

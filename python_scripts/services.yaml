@@ -1,0 +1,15 @@
+light_dimmer:
+  description: Smoothly change brightness with linear transition
+  fields:
+    entity_id:
+      description: The light that will be turned on.
+      example: light.bedroom
+    transition:
+      description: Duration in seconds it takes to get to next state
+      example: 10
+    brightness:
+      description: Brightness to end at
+      example: 255
+    brightness_pct:
+      description: Brightness to end at as a percentage
+      example: 100

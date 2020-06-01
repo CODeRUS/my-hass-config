@@ -1,0 +1,4 @@
+interface: '192.168.1.111'
+gateways:
+  - mac: 34CE008141AF
+    key: !secret xiaomi_gateway_key

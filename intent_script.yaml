@@ -1,0 +1,32 @@
+TemperatureValue:
+  speech:
+    text: >
+      {%- if RoomName == 'room' -%}
+      {%- set entity_id = 'sensor.0x00158d000227d566_temperature' -%}
+      {%- endif -%}
+      {%- if RoomName == 'kitchen' -%}
+      {%- set entity_id = 'sensor.0x00158d0003cb89af_temperature' -%}
+      {%- endif -%}
+      {%- if RoomName == 'bedroom' -%}
+      {%- set entity_id = 'sensor.0x00158d0001d5c48b_temperature' -%}
+      {%- endif -%}
+      {%- if RoomName == 'bathroom' -%}
+      {%- set entity_id = 'sensor.0x00158d0003a002da_temperature' -%}
+      {%- endif -%}
+      Температура воздуха {{ states(entity_id) | round }}°C
+HumidityValue:
+  speech:
+    text: >
+      {%- if RoomName == 'room' -%}
+      {%- set entity_id = 'sensor.0x00158d000227d566_humidity' -%}
+      {%- endif -%}
+      {%- if RoomName == 'kitchen' -%}
+      {%- set entity_id = 'sensor.0x00158d0003cb89af_humidity' -%}
+      {%- endif -%}
+      {%- if RoomName == 'bedroom' -%}
+      {%- set entity_id = 'sensor.0x00158d0001d5c48b_humidity' -%}
+      {%- endif -%}
+      {%- if RoomName == 'bathroom' -%}
+      {%- set entity_id = 'sensor.0x00158d0003a002da_humidity' -%}
+      {%- endif -%}
+      Относительная влажность {{ states(entity_id) | round }}%

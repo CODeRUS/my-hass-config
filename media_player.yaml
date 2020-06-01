@@ -1,0 +1,5 @@
+- platform: smartir
+  name: TV
+  unique_id: living_room_tv
+  device_code: 2000
+  controller_data: remote.xiaomi_miio_192_168_1_239

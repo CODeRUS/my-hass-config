@@ -1,0 +1,18 @@
+domains:
+  - automation
+  - device_tracker
+  - input_boolean
+  - input_number
+  - input_select
+  - input_text
+  - media_player
+  - updater
+  - zigbee2mqtt_networkmap
+  - remote
+  - script
+  - persistent_notification
+entities:
+  - sensor.hacs
+  - sensor.kitchen_rgb_brightness
+  - sensor.lobby_rgb_brightness
+  - sensor.xiaomi_map

@@ -1,0 +1,6 @@
+- platform: google_maps
+  username: !secret google_tracker_account
+# - platform: luci
+#   host: !secret luci_host
+#   username: !secret luci_username
+#   password: !secret luci_password
