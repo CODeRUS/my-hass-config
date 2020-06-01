@@ -1,0 +1,81 @@
+automation:
+  - id: '1600026654326'
+    alias: Пульт кухня 8
+    description: ''
+    trigger:
+    - device_id: efe8cee019eb4fa9932b6f38c4e5725c
+      discovery_id: 0x00124b00221467c9 action_button_8_single
+      domain: mqtt
+      platform: device
+      subtype: button_8_single
+      type: action
+    condition: []
+    action:
+    - data: {}
+      entity_id: light.0x00124b001f2b4c3d_kitchen_1
+      service: light.toggle
+    mode: single
+  - id: '1600026820807'
+    alias: Пульт кухня 7
+    description: ''
+    trigger:
+    - device_id: efe8cee019eb4fa9932b6f38c4e5725c
+      discovery_id: 0x00124b00221467c9 action_button_7_single
+      domain: mqtt
+      platform: device
+      subtype: button_7_single
+      type: action
+    condition: []
+    action:
+    - data: {}
+      entity_id: light.0x00124b001f2b4c3d_kitchen_2
+      service: light.toggle
+    mode: single
+  - id: '1600026863572'
+    alias: Пульт кухня 6
+    description: ''
+    trigger:
+    - device_id: efe8cee019eb4fa9932b6f38c4e5725c
+      discovery_id: 0x00124b00221467c9 action_button_6_single
+      domain: mqtt
+      platform: device
+      subtype: button_6_single
+      type: action
+    condition: []
+    action:
+    - data: {}
+      entity_id: light.0x00124b001f2b4c3d_kitchen_3
+      service: light.toggle
+    mode: single
+  - id: '1600026901650'
+    alias: Пульт кухня 5
+    description: ''
+    trigger:
+    - device_id: efe8cee019eb4fa9932b6f38c4e5725c
+      discovery_id: 0x00124b00221467c9 action_button_5_single
+      domain: mqtt
+      platform: device
+      subtype: button_5_single
+      type: action
+    condition: []
+    action:
+    - data: {}
+      entity_id: light.0x00124b001f2b4c3d_kitchen_4
+      service: light.toggle
+    mode: single
+  - id: '1601311752966'
+    alias: Пульт кухня 1
+    description: ''
+    trigger:
+    - platform: device
+      domain: mqtt
+      device_id: efe8cee019eb4fa9932b6f38c4e5725c
+      type: action
+      subtype: button_1_single
+      discovery_id: 0x00124b00221467c9 action_button_1_single
+    condition: []
+    action:
+    - service: switch.toggle
+      data: {}
+      entity_id: switch.0x00158d0001a4c32a_switch
+    mode: single

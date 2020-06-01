@@ -1,0 +1,6 @@
+remote_url:
+  initial: !secret http_base_url
+local_url:
+  initial: !secret local_base_url
+intercom_preview_url:
+  initial: !secret camera_intercom_still_image_url

@@ -1,0 +1,37 @@
+camera:
+  - platform: generic
+    name: outdoor
+    still_image_url: !secret camera_outdoor_still_image_url
+    stream_source: !secret camera_outdoor_stream_source
+  - platform: generic
+    name: intercom
+    still_image_url: !secret camera_intercom_still_image_url
+    stream_source: !secret camera_intercom_stream_source
+  # - platform: generic
+  #   name: fisheye
+  #   still_image_url: !secret camera_fisheye_still_image_url
+  #   stream_source: !secret camera_fisheye_stream_source
+  # - platform: ffmpeg
+  #   name: fisheye_ffmpeg
+  #   input: !secret camera_fisheye_ffmpeg_source
+  - platform: ffmpeg
+    name: outdoor_ffmpeg
+    input: !secret camera_outdoor_ffmpeg_source
+  # - name: camera_door_last_person
+  #   platform: mqtt
+  #   topic: frigate/door/person/snapshot
+  # - name: camera_door_tf
+  #   platform: mjpeg
+  #   mjpeg_url: !secret camera_door_tf_stream_source
+  # - name: camera_intercom_last_person
+  #   platform: mqtt
+  #   topic: frigate/intercom/person/snapshot
+  # - name: camera_intercom_tf
+  #   platform: mjpeg
+  #   mjpeg_url: !secret camera_intercom_tf_stream_source
+  # - name: camera_indoor_last_person
+  #   platform: mqtt
+  #   topic: frigate/indoor/person/snapshot
+  # - name: camera_indoor_tf
+  #   platform: mjpeg
+  #   mjpeg_url: !secret camera_indoor_tf_stream_source

@@ -1,0 +1,23 @@
+- platform: template
+  switches:
+    intercom_switch:
+      value_template: "{{ is_state('input_boolean.intercom_open_once', 'on') }}"
+      turn_on:
+        service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.intercom_open_once
+      turn_off:
+        service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.intercom_open_once
+    vacuum_switch:
+      friendly_name: "Уборка"
+      value_template: "{{ is_state('vacuum.micleaner', 'cleaning') }}"
+      turn_on:
+        service: vacuum.start
+        data:
+          entity_id: vacuum.micleaner
+      turn_off:
+        service: vacuum.pause
+        data:
+          entity_id: vacuum.micleaner

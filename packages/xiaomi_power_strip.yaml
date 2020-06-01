@@ -1,0 +1,6 @@
+# switch:
+#   - platform: xiaomi_miio
+#     host: !secret smart_strip_bathroom_ip
+#     token: !secret smart_strip_bathroom_token
+#     model: qmi.powerstrip.v1
+#     name: bathroom_strip

@@ -1,0 +1,34 @@
+zone:
+  - name: work
+    latitude: 55.751912
+    longitude: 48.752379
+    radius: 200
+  - name: home
+    latitude: 55.748099
+    longitude: 48.742726
+    radius: 20
+
+person:
+  - name: Andrey
+    id: andrey
+    user_id: 9a06cd5fda5b49ca841de4745c3c01ff
+    device_trackers:
+  #    - device_tracker.sm_g965f
+      - device_tracker.google_maps_106248054825596830888
+      - device_tracker.galaxy_s9_lan
+      - device_tracker.28_c2_1f_82_25_d9
+  - name: Daria
+    id: daria
+    user_id: e469fc96d46c42aeb035ff76ceca3437
+    device_trackers:
+      - device_tracker.8c_b8_4a_c0_5f_ff
+  #    - device_tracker.sm_g970f
+      - device_tracker.google_maps_100799580455693252887
+
+device_tracker:
+  - platform: google_maps
+    username: !secret google_tracker_account
+  # - platform: luci
+  #   host: !secret luci_host
+  #   username: !secret luci_username
+  #   password: !secret luci_password

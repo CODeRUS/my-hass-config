@@ -1,0 +1,20 @@
+night_sensor:
+  name: Night sensor triggered
+  initial: off
+room_was_hold:
+  name: Long hold action for room switch
+  initial: off
+intercom_open_once:
+  initial: on
+# intercom_open_auto:
+#   initial: off
+conditioner:
+  initial: off
+mikettle_warm_mode:
+  initial: off
+mikettle_refill_mode:
+  initial: off
+mikettle_boil_triggered:
+  initial: off
+intercom_call:
+  initial: on

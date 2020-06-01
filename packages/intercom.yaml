@@ -1,0 +1,50 @@
+# sensor:
+#   - platform: rest
+#     name: Intercom Visitors
+#     resource: !secret intercom_visitors_check_url
+#     headers: !secret intercom_headers
+#     scan_interval: 5
+#     value_template: >
+#       {% if value_json is defined and value_json[0] is defined %}
+#       {{ value_json[0].created_at }}
+#       {% else %}
+#       unknown
+#       {% endif %}
+#     json_attributes:
+#       - created_at
+#       - flat_uuid
+#       - image_url
+
+# input_text:
+#   intercom_last_visitor:
+#     name: Intercom Last Visitor
+
+# automation:
+#   - alias: Intercom Last Visitor Set
+#     initial_state: "on"
+#     trigger:
+#       platform: state
+#       entity_id: sensor.intercom_visitors
+#     condition:
+#       condition: template
+#       value_template: >
+#         {{ trigger.to_state.state != "unknown" and trigger.to_state.state != "unavailable" and trigger.to_state.state != "" and trigger.from_state.state != "" }}
+#     action:
+#       - service: input_text.set_value
+#         data:
+#           entity_id: input_text.intercom_last_visitor
+#           value: >
+#             {{ as_timestamp(trigger.to_state.state) | timestamp_custom ("%Y.%m.%d %H:%M:%S") }}
+#   - alias: Intercom Last Visitor Changed
+#     initial_state: "on"
+#     trigger:
+#       platform: state
+#       entity_id: input_text.intercom_last_visitor
+#     condition:
+#       condition: template
+#       value_template: >
+#         {{ trigger.to_state.state != trigger.from_state.state and trigger.from_state.state != "" and trigger.to_state.state != states.input_text.intercom_last_visitor.state }}
+#     action:
+#       - data:
+#           message: "from: {{ trigger.from_state.state }}\nto: {{ trigger.to_state.state }}\n{{ states.input_text.intercom_last_visitor.state }}"
+#         service: notify.telegram_group

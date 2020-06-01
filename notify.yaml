@@ -1,0 +1,17 @@
+- platform: html5
+  name: hass_push
+  vapid_pub_key: !secret push_pubkey
+  vapid_prv_key: !secret push_privkey
+  vapid_email: !secret push_email
+- name: telegram_group
+  platform: telegram
+  chat_id: !secret telegram_chat_id_group
+- name: telegram_andrey
+  platform: telegram
+  chat_id: !secret telegram_chat_id_andrey
+- name: telegram_daria
+  platform: telegram
+  chat_id: !secret telegram_chat_id_daria
+- name: telegram_tf
+  platform: telegram
+  chat_id: !secret telegram_chat_id_tf

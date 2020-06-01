@@ -1,0 +1,46 @@
+sensor:
+  - platform: command_line
+    name: Core Temp 0
+    command: "cat /sys/class/hwmon/hwmon1/temp2_input"
+    unit_of_measurement: "°c"
+    value_template: '{{ value | multiply(0.001) | round(1) }}'
+  - platform: command_line
+    name: Core Temp 1
+    command: "cat /sys/class/hwmon/hwmon1/temp3_input"
+    unit_of_measurement: "°c"
+    value_template: '{{ value | multiply(0.001) | round(1) }}'
+  - platform: command_line
+    name: Core Temp 2
+    command: "cat /sys/class/hwmon/hwmon1/temp4_input"
+    unit_of_measurement: "°c"
+    value_template: '{{ value | multiply(0.001) | round(1) }}'
+  - platform: command_line
+    name: Core Temp 3
+    command: "cat /sys/class/hwmon/hwmon1/temp5_input"
+    unit_of_measurement: "°c"
+    value_template: '{{ value | multiply(0.001) | round(1) }}'
+  - platform: command_line
+    name: Core Load 0
+    command: "mpstat -P 0 1 1 | tail -n 1 | tr -s ' ' | rev | cut -d ' ' -f 1 | rev"
+    unit_of_measurement: "%t"
+    value_template: '{{ 100 - value | round(1) }}'
+  - platform: command_line
+    name: Core Load 1
+    command: "mpstat -P 1 1 1 | tail -n 1 | tr -s ' ' | rev | cut -d ' ' -f 1 | rev"
+    unit_of_measurement: "%t"
+    value_template: '{{ 100 - value | round(1) }}'
+  - platform: command_line
+    name: Core Load 2
+    command: "mpstat -P 2 1 1 | tail -n 1 | tr -s ' ' | rev | cut -d ' ' -f 1 | rev"
+    unit_of_measurement: "%t"
+    value_template: '{{ 100 - value | round(1) }}'
+  - platform: command_line
+    name: Core Load 3
+    command: "mpstat -P 3 1 1 | tail -n 1 | tr -s ' ' | rev | cut -d ' ' -f 1 | rev"
+    unit_of_measurement: "%t"
+    value_template: '{{ 100 - value | round(1) }}'
+  - platform: command_line
+    name: Used memory
+    command: "free -m | grep -oP '\\d+' | head -n 2 | tail -n 1"
+    unit_of_measurement: "GB"
+    value_template: '{{ value | multiply(0.001) | round(3) }}'

@@ -1,0 +1,41 @@
+google_assistant:
+  project_id: !secret ga_project_id
+  # api_key: !secret ga_api_key
+  service_account: !include ../google-assistant-project.json
+  report_state: true
+  secure_devices_pin: !secret ga_secure_pin
+  exposed_domains:
+    - switch
+    - light
+    - fan
+    - camera
+    - cover
+  entity_config:
+    climate.conditioner:
+      expose: true
+    climate.conditioner2:
+      expose: true
+    vacuum.rockrobo:
+      expose: false
+    switch.zigbee_permit_join:
+      expose: false
+    light.devlamp:
+      expose: false
+    light.bathroom_lights:
+      expose: false
+    light.gateway_light_34ce008141af:
+      expose: false
+    switch.0x00158d00016c976f_switch_left:
+      expose: false
+    switch.0x00158d00016c976f_switch_right:
+      expose: false
+    switch.0x00158d00018771cd_switch:
+      expose: false
+    switch.0x00158d0001a4c32a_switch:
+      expose: false
+    light.anavi_miracle_controller_led1:
+      expose: false
+    light.room_light_4ch_led:
+      expose: false
+    switch.kitchen_rgb_controller_cal:
+      expose: false

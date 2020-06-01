@@ -1,0 +1,8 @@
+sensor:
+  - platform: template
+    sensors:
+      pressure_mmhg:
+        value_template: '{{ (states("sensor.0x00158d0001d5c48b_pressure") | float * 0.75006375541921) | round(0) }}'
+        availability_template: '{{ states("sensor.0x00158d0001d5c48b_pressure") not in ["none", "unknown", "unavailable"] }}'
+        unit_of_measurement: "mmHg"
+        device_class: pressure

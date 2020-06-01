@@ -1,0 +1,30 @@
+yeelight:
+  devices:
+    192.168.1.102:
+      name: yeelight_color1_34ce00824b3d
+      model: color1
+    192.168.1.100:
+      name: yeelight_color1_34ce0082557b
+      model: color1
+    192.168.1.103:
+      name: yeelight_color1_34ce008501fe
+      model: color1
+    192.168.1.137:
+      name: yeelight_mibt1
+      model: color4
+    192.168.1.117:
+      name: yeelight_mibt2
+      model: color4
+    192.168.1.44:
+      name: yeelight_mibt3
+      model: color4
+    192.168.1.182:
+      name: yeelight_mibt4
+      model: color4
+
+light:
+  - platform: group
+    name: bathroom_lights
+    entities:
+      - light.yeelight_mibt3
+      - light.yeelight_mibt4

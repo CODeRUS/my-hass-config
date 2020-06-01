@@ -1,0 +1,23 @@
+homeassistant: !include homeassistant.yaml
+
+automation: !include automations.yaml
+counter: !include counter.yaml
+frontend: !include frontend.yaml
+group: !include groups.yaml
+http: !include http.yaml
+input_boolean: !include input_boolean.yaml
+input_number: !include input_number.yaml
+input_text: !include input_text.yaml
+intent_script: !include intent_script.yaml
+light: !include light.yaml
+mqtt: !include mqtt.yaml
+notify: !include notify.yaml
+rest_command: !include rest_command.yaml
+scene: !include scene.yaml
+script: !include scripts.yaml
+switch: !include switch.yaml
+telegram_bot: !include telegram_bot.yaml
+tts: !include tts.yaml
+utility_meter: !include utility_meter.yaml
+
+media_extractor: !include media_extractor.yaml

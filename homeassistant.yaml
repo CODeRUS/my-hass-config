@@ -1,0 +1,22 @@
+name: Иннодом
+latitude: 55.748099
+longitude: 48.742726
+elevation: 196
+unit_system: metric
+time_zone: Europe/Moscow
+customize: !include customize.yaml
+external_url: !secret http_base_url
+internal_url: !secret local_base_url
+allowlist_external_dirs:
+  - /tmp
+  - /config/www
+  - /config/www/home
+  - /config/www/image_processing
+auth_providers:
+  - type: homeassistant
+  - type: trusted_networks
+    trusted_networks:
+      - 192.168.1.0/24
+    trusted_users:
+      192.168.0.0/24: 65139e4a5ea24e04b21f8a08f82a7088
+packages: !include_dir_named packages

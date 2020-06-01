@@ -1,0 +1,6 @@
+binary_sensor:
+  - platform: mqtt
+    name: "Spruthub Test button"
+    state_topic: "spruthub/7/26/ContactSensor/ContactSensorState"
+    payload_on: "1"
+    payload_off: "0"

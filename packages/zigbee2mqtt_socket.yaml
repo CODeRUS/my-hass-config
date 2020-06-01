@@ -1,0 +1,139 @@
+input_select:
+  sopcket2mqtt_log_level:
+    name: sopcket2mqtt Log Level
+    options:
+      - debug
+      - info
+      - warn
+      - error
+    initial: info
+    icon: mdi:format-list-bulleted
+
+# Input text to input Zigbee2mqtt friendly_name for scripts
+input_text:
+  sopcket2mqtt_old_name:
+    name: sopcket2mqtt Old Name
+  sopcket2mqtt_new_name:
+    name: sopcket2mqtt New Name
+  sopcket2mqtt_remove:
+    name: sopcket2mqtt Remove
+
+# Scripts for renaming & removing devices
+script:
+  sopcket2mqtt_rename:
+    alias: sopcket2mqtt Rename
+    sequence:
+      service: mqtt.publish
+      data_template:
+        topic: sopcket2mqtt/bridge/config/rename
+        payload_template: >-
+          {
+            "old": "{{ states.input_text.sopcket2mqtt_old_name.state | string }}",
+            "new": "{{ states.input_text.sopcket2mqtt_new_name.state | string }}"
+          }
+  sopcket2mqtt_remove:
+    alias: sopcket2mqtt Remove
+    sequence:
+      service: mqtt.publish
+      data_template:
+        topic: sopcket2mqtt/bridge/config/remove
+        payload_template: "{{ states.input_text.sopcket2mqtt_remove.state | string }}"
+
+# Timer for joining time remaining (120 sec = 2 min)
+timer:
+  sopcket2mqtt_permit_join:
+    name: Time remaining
+    duration: 120
+
+sensor:
+  # Sensor for monitoring the bridge state
+  - platform: mqtt
+    name: sopcket2mqtt Bridge state
+    state_topic: "sopcket2mqtt/bridge/state"
+    icon: mdi:router-wireless
+  # Sensor for Showing the Zigbee2mqtt Version
+  - platform: mqtt
+    name: sopcket2mqtt Version
+    state_topic: "sopcket2mqtt/bridge/config"
+    value_template: "{{ value_json.version }}"
+    icon: mdi:zigbee
+  # Sensor for Showing the Coordinator Version
+  - platform: mqtt
+    name: sopcket2mqtt Coordinator Version
+    state_topic: "sopcket2mqtt/bridge/config"
+    value_template: "{{ value_json.coordinator }}"
+    icon: mdi:chip
+
+# Switch for enabling joining
+switch:
+  - platform: mqtt
+    name: "sopcket2mqtt Main join"
+    state_topic: "sopcket2mqtt/bridge/config/permit_join"
+    command_topic: "sopcket2mqtt/bridge/config/permit_join"
+    payload_on: "true"
+    payload_off: "false"
+
+automation:
+  # Automation for sending MQTT message on input select change
+  - alias: sopcket2mqtt Log Level
+    initial_state: "on"
+    trigger:
+      platform: state
+      entity_id: input_select.sopcket2mqtt_log_level
+    action:
+      - service: mqtt.publish
+        data:
+          payload_template: "{{ states('input_select.sopcket2mqtt_log_level') }}"
+          topic: sopcket2mqtt/bridge/config/log_level
+          retain: true
+  - alias: sopcket2mqtt Log Input
+    trigger:
+      platform: mqtt
+      topic: sopcket2mqtt/bridge/config
+    action:
+      - data_template:
+          entity_id: input_select.sopcket2mqtt_log_level
+          option: '{{ trigger.payload_json.log_level }}'
+        service: input_select.select_option
+  # Automation to start timer when enable join is turned on
+  - id: sopcket2mqtt_join_enabled
+    alias: sopcket2mqtt Join Enabled
+    trigger:
+      platform: state
+      entity_id: switch.sopcket2mqtt_main_join
+      to: "on"
+    action:
+      service: timer.start
+      entity_id: timer.sopcket2mqtt_permit_join
+  # Automation to stop timer when switch turned off and turn off switch when timer finished
+  - id: sopcket2mqtt_join_disabled
+    alias: sopcket2mqtt Join Disabled
+    trigger:
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.sopcket2mqtt_permit_join
+      - platform: state
+        entity_id: switch.sopcket2mqtt_main_join
+        to: "off"
+    action:
+      - service: timer.cancel
+        data:
+          entity_id: timer.sopcket2mqtt_permit_join
+      - service: switch.turn_off
+        entity_id: switch.sopcket2mqtt_main_join
+  - id: "sopcket2mqtt_create_notification_on_successfull_interview"
+    alias: Zigbee Device Joined Notification
+    trigger:
+      platform: mqtt
+      topic: 'sopcket2mqtt/bridge/log'
+    condition:
+      condition: template
+      value_template: '{{trigger.payload_json.type == "pairing" and trigger.payload_json.message == "interview_successful"}}'
+    action:
+      - service: persistent_notification.create
+        data_template:
+          title: Device joined the sopcket2mqtt network
+          message: "Name: {{trigger.payload_json.meta.friendly_name}},
+                    Vendor: {{trigger.payload_json.meta.vendor}},
+                    Description: {{trigger.payload_json.meta.description}}"

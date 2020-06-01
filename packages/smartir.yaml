@@ -1,0 +1,70 @@
+smartir:
+
+media_player:
+  - platform: smartir
+    name: TV
+    unique_id: living_room_tv
+    device_code: 2000
+    controller_data: remote.xiaomi_miio_192_168_1_239
+
+climate:
+  - platform: smartir
+    name: Conditioner
+    unique_id: conditioner
+    device_code: 2000
+    controller_data: remote.xiaomi_miio_192_168_1_239
+    temperature_sensor: sensor.0x00158d000227d566_temperature
+    humidity_sensor: sensor.0x00158d000227d566_humidity
+    power_sensor: input_boolean.conditioner
+  - platform: smartir
+    name: Conditioner2
+    unique_id: conditioner2
+    device_code: 2000
+    controller_data: remote.irremote2
+    temperature_sensor: sensor.0x00158d0001d5c48b_temperature
+    humidity_sensor: sensor.0x00158d0001d5c48b_humidity
+    power_sensor: input_boolean.conditioner
+
+remote:
+  - platform: xiaomi_miio
+    name: irremote
+    host: !secret xiaomi_irremote_host
+    token: !secret xiaomi_irremote_token
+    commands:
+      tv_on_off:
+        command:
+          - 'raw:Z6VHAAoCAABXAgAAtwYAAOUIAAClEQAAFCMAAKScAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFEBAgEBAQEBAgIBAgICAgIBAQECAQEBAQICAgECAgICBgNQA='
+      tv_vol_up:
+        command:
+          - 'raw:Z6VHAPkBAABrAgAAxQYAAOwIAACuEQAADSMAAKScAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFEBAgEBAQEBAgIBAgICAgIBAgEBAQEBAQIBAgICAgICBgNQA='
+      tv_vol_down:
+        command:
+          - 'raw:Z6VHAPIBAABqAgAAxQYAAPMGAADtCAAArhEAAA0jAACknAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABWEBAgEBAQEBAgIBAgMDAgICAwEBAQEBAQEBAgMCAgMCBwRgA='
+      tv_left:
+        command:
+          - 'raw:Z6VHAPoBAABnAgAAxAYAAPQGAADrCAAArBEAAAwjAACknAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABWEBAgEBAQEBAgIBAgMCAgICAgIBAQEBAQEBAQICAgICBwRgA='
+      tv_right:
+        command:
+          - 'raw:Z6VHAP0BAABkAgAAwwYAAOcIAACrEQAAECMAAKScAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFEBAgEBAQEBAgIBAgICAgIBAgIBAQEBAQIBAQICAgICBgNQA='
+      tv_up:
+        command:
+          - 'raw:Z6VHAAACAABhAgAAwQYAANEIAACpEQAAHiMAAKScAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFEBAgEBAQEBAgIBAgICAgIBAQEBAQECAQICAgICAgECBgNQA='
+      tv_down:
+        command:
+          - 'raw:Z6VHAP8BAABjAgAAwQYAAOkIAACqEQAADyMAAKScAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFEBAgEBAQEBAgIBAgICAgICAQEBAQECAQECAgICAgECBgNQA='
+      tv_ok:
+        command:
+          - 'raw:Z6VHAP4BAABjAgAAwgYAAM8IAACqEQAAHiMAAKScAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFEBAgEBAQEBAgIBAgICAgIBAQIBAQECAQICAQICAgECBgNQA='
+      tv_input:
+        command:
+          - 'raw:Z6VHANkBAACKAgAA5AYAAC8JAADsEQAAzCIAAOgiAAAInQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGEBAgEBAQEBAgIBAgICAgICAgECAQEBAQEBAgECAgICBwNQA='
+      tv_back:
+        command:
+          - 'raw:Z6VHAN8BAACBAgAA4gYAAPAIAADKEQAA/SIAAAidAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFEBAgEBAQEBAgIBAgICAgIBAQECAQIBAQICAgECAQICBgNQA='
+      tv_mute:
+        command:
+          - 'raw:Z6VHAOcBAAB6AgAA2wYAAO8IAACxEQAACyMAAKScAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFEBAgEBAQEBAgIBAgICAgICAQECAQEBAQECAgECAgICBgNQA='
+  - platform: xiaomi_miio
+    name: irremote2
+    host: !secret xiaomi_irremote2_host
+    token: !secret xiaomi_irremote2_token

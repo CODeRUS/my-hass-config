@@ -1,0 +1,33 @@
+script1:
+  alias: Открой дверь
+  sequence:
+  - service: switch.turn_on
+    entity_id: switch.doorlock_relay
+  - delay:
+      seconds: 10
+  - service: switch.turn_off
+    entity_id: switch.doorlock_relay
+'1591261632403':
+  alias: Домофон на ТВ
+  sequence:
+  - data: {}
+    entity_id: media_player.televizor
+    service: media_player.turn_on
+  - delay: 00:00:01
+  - data:
+      media_player: media_player.televizor
+    entity_id: camera.intercom
+    service: camera.play_stream
+  mode: single
+'1591261689907':
+  alias: Площадка на ТВ
+  sequence:
+  - data: {}
+    entity_id: media_player.televizor
+    service: media_player.turn_on
+  - delay: 00:00:01
+  - data:
+      media_player: media_player.televizor
+    entity_id: camera.nvt_profile_000
+    service: camera.play_stream
+  mode: single

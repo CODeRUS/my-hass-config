@@ -1,0 +1,104 @@
+# sensor:
+#   - platform: mqtt
+#     state_topic: "valetudo/rockrobo/state"
+#     json_attributes_topic: "valetudo/rockrobo/map_data"
+#     name: xiaomi_map
+#     value_template: 'OK'
+#     scan_interval: 5
+
+script:
+  vacuum_clean_lobby:
+    alias: Уборка прихожей
+    sequence:
+    - data:
+        entity_id: vacuum.rockrobo
+        command: zoned_cleanup
+        params:
+          zone_ids:
+          - lobby
+      service: vacuum.send_command
+  vacuum_clean_hall:
+    alias: Уборка коридора
+    sequence:
+    - data:
+        entity_id: vacuum.rockrobo
+        command: zoned_cleanup
+        params:
+          zone_ids:
+          - hall
+      service: vacuum.send_command
+  vacuum_clean_bedroom:
+    alias: Уборка спальни
+    sequence:
+    - data:
+        entity_id: vacuum.rockrobo
+        command: zoned_cleanup
+        params:
+          zone_ids:
+          - bedroom
+      service: vacuum.send_command
+  vacuum_clean_room:
+    alias: Уборка гостинной
+    sequence:
+    - data:
+        entity_id: vacuum.rockrobo
+        command: zoned_cleanup
+        params:
+          zone_ids:
+          - room
+      service: vacuum.send_command
+  vacuum_clean_kitchen:
+    alias: Уборка кухни
+    sequence:
+    - data:
+        entity_id: vacuum.rockrobo
+        command: zoned_cleanup
+        params:
+          zone_ids:
+          - kitchen
+      service: vacuum.send_command
+  vacuum_clean_apt:
+    alias: Уборка в квартире
+    sequence:
+    - data:
+        entity_id: vacuum.rockrobo
+        command: zoned_cleanup
+        params:
+          zone_ids:
+          - apt
+      service: vacuum.send_command
+
+automation:
+- alias: Ошибка пылесоса
+  description: ''
+  trigger:
+  - entity_id: vacuum.rockrobo
+    for: 00:00:01
+    from: cleaning
+    platform: state
+    to: error
+  condition: []
+  action:
+  - data_template:
+      message: '{{ state_attr(''vacuum.rockrobo'', ''error'') }}'
+      title: Ошибка пылесоса
+    service: notify.hass_push
+  - data:
+      message: 'Ошибка пылесоса: {{ state_attr(''vacuum.rockrobo'', ''error'') }}'
+    service: notify.telegram_group
+- alias: Пылесос закончил уборку
+  description: ''
+  trigger:
+  - entity_id: vacuum.rockrobo
+    from: cleaning
+    platform: state
+    to: returning
+  condition: []
+  action:
+  - data:
+      message: Уборка завершена
+      title: Пылесос
+    service: notify.hass_push
+  - data:
+      message: Пылесос закончил уборку
+    service: notify.telegram_group

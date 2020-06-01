@@ -1,0 +1,17 @@
+intercom_open:
+  url: !secret intercom_open_url
+  headers: !secret intercom_headers
+intercom_open_door:
+  url: !secret intercon_open_door_url
+  headers: !secret intercom_headers
+  method: POST
+intercom_accept:
+  url: !secret intercom_call_accept_url
+  headers:  !secret intercom_headers
+intercom_reject:
+  url: !secret intercom_call_reject_url
+  headers:  !secret intercom_headers
+sputnik_open_door:
+  url: !secret intercon_open_door_url_template
+  headers: !secret intercom_headers
+  method: POST

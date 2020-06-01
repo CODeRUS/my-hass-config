@@ -1,0 +1,342 @@
+yandex_station:
+  username: !secret yandex_station_user
+  password: !secret yandex_station_pass
+  devices:
+    FF98F029AE35FB014DC10BE5:
+      host: !secret yandex_station_mini_room_ip
+  tts_service_name: alice_say
+  recognition_lang: ru-RU
+  intents:
+    Покажи камеру двери:
+    Покажи камеру подъезда:
+    Покажи камеру площадки:
+    Покажи камеру домофона:
+    Покажи камеру улицы:
+    Открой домофон:
+    Открой подъезд:
+    Открой дверь:
+    Открой дверь квартиры:
+    Уберись в прихожей:
+    Убери в прихожей:
+    Приберись в прихожей:
+    Прибери в прихожей:
+    Уберись в спальне:
+    Убери в спальне:
+    Приберись в спальне:
+    Прибери в спальне:
+    Уберись в коридоре:
+    Убери в коридоре:
+    Приберись в коридоре:
+    Прибери в коридоре:
+    Уберись на кухне:
+    Убери на кухне:
+    Приберись на кухне:
+    Прибери на кухне:
+    Уберись в комнате:
+    Убери в комнате:
+    Приберись в комнате:
+    Прибери в комнате:
+    Уберись в гостиной:
+    Убери в гостиной:
+    Приберись в гостиной:
+    Прибери в гостиной:
+    Уберись в квартире:
+    Убери в квартире:
+    Приберись в квартире:
+    Прибери в квартире:
+   
+morph_numbers:
+
+conversation:
+  intents:
+    media_player.yandex_station_ff98f029ae35fb014dc10be5: [.+]
+
+yandex_dialogs:
+  allowed_user_ids:
+    - 7CC3D4A953806C951C6FD7640A21F52D533C0151F63FD25ED5C8AC3303E2815F
+
+yandex_smart_home_fix:
+
+yandex_smart_home:
+  filter:
+    include_domains:
+      - switch
+      - light
+      - fan
+      - cover
+      - camera
+    include_entities:
+      - media_player.televizor
+      - media_player.yandex_intents
+      - climate.conditioner
+      - climate.conditioner2
+      - sensor.0x00158d0001d5c48b_humidity
+      - sensor.0x00158d000227d566_humidity
+      - sensor.0x00158d0003a002da_humidity
+      - sensor.0x00158d0003a00374_humidity
+      - sensor.0x00158d0003cb89af_humidity
+      - sensor.0x00158d0001d5c48b_temperature
+      - sensor.0x00158d000227d566_temperature
+      - sensor.0x00158d0003a002da_temperature
+      - sensor.0x00158d0003a00374_temperature
+      - sensor.0x00158d0003cb89af_temperature
+    exclude_entities:
+      - vacuum.rockrobo
+      - switch.zigbee_permit_join
+      - light.devlamp
+      - light.bathroom_lights
+      - light.gateway_light_34ce008141af
+      - switch.0x00158d00016c976f_switch_left
+      - switch.0x00158d00016c976f_switch_right
+      - switch.0x00158d00018771cd_switch
+      - switch.0x00158d0001a4c32a_switch
+      - light.anavi_miracle_controller_led1
+      - light.room_light_4ch_led
+      - switch.kitchen_rgb_controller_cal
+      - switch.0x588e81fffedba101_firmware_lock
+  entity_config:
+    fan.bedroom_humidifier_fan:
+      type: devices.types.humidifier
+      properties:
+        - type: temperature
+          entity: sensor.0x00158d0001d5c48b_temperature
+        - type: humidity
+          entity: sensor.0x00158d0001d5c48b_humidity
+
+automation:
+- trigger:
+    platform: event
+    event_type: telegram_text
+  condition:
+  - condition: template
+    value_template: '{{ trigger.event.data.text.lower().startswith("алиса") }}'
+  action:
+    service: media_player.play_media
+    entity_id: media_player.yandex_station_ff98f029ae35fb014dc10be5
+    data_template:
+      media_content_id: "{{ trigger.event.data.text }}"
+      media_content_type: "question:{{ trigger.event.data.chat_id }}"
+- trigger:
+    platform: event
+    event_type: yandex_station_response
+  action:
+    service: telegram_bot.send_message
+    data_template:
+      target: "{{ trigger.event.data.request_id }}"
+      message: "{{ trigger.event.data.text }}"
+- alias: Алиса Покажи камеру домофона
+  trigger:
+  - event_data:
+      text: Покажи камеру домофона
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Покажи камеру улицы
+    event_type: yandex_intent
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: script.1591261632403
+    service: script.turn_on
+- alias: Алиса Открой дверь
+  trigger:
+  - event_data:
+      text: Открой дверь
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Открой дверь квартиры
+    event_type: yandex_intent
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.doorlock_relay
+    service: switch.turn_off
+- alias: Алиса Открой домофон
+  trigger:
+  - event_data:
+      text: Открой домофон
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Открой подъезд
+    event_type: yandex_intent
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.intercom_switch
+    service: switch.turn_off
+- alias: Алиса Приберись в прихожей
+  trigger:
+  - event_data:
+      text: Приберись в прихожей
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Прибери в прихожей
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Уберись в прихожей
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Убери в прихожей
+    event_type: yandex_intent
+    platform: event
+  action:
+  - service: script.vacuum_clean_lobby
+- alias: Алиса Приберись в спальне
+  trigger:
+  - event_data:
+      text: Приберись в спальне
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Прибери в спальне
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Уберись в спальне
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Убери в спальне
+    event_type: yandex_intent
+    platform: event
+  action:
+  - entity_id: script.vacuum_clean_bedroom
+    service: script.turn_on
+- alias: Алиса Приберись в коридоре
+  trigger:
+  - event_data:
+      text: Приберись в коридоре
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Прибери в коридоре
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Уберись в коридоре
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Убери в коридоре
+    event_type: yandex_intent
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: script.vacuum_clean_hall
+    service: script.turn_on
+- alias: Алиса Приберись на кухне
+  trigger:
+  - event_data:
+      text: Приберись на кухне
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Прибери на кухне
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Уберись на кухне
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Убери на кухне
+    event_type: yandex_intent
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: script.vacuum_clean_kitchen
+    service: script.turn_on
+- alias: Алиса Приберись в комнате
+  trigger:
+  - event_data:
+      text: Приберись в комнате
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Приберись в гостиной
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Прибери в комнате
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Прибери в гостиной
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Уберись в комнате
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Уберись в гостиной
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Убери в комнате
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Убери в гостиной
+    event_type: yandex_intent
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: script.vacuum_clean_room
+    service: script.turn_on
+- alias: Алиса Приберись в квартире
+  trigger:
+  - event_data:
+      text: Приберись в квартире
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Прибери в квартире
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Уберись в квартире
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Убери в квартире
+    event_type: yandex_intent
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: script.vacuum_clean_apt
+    service: script.turn_on
+
+script:
+  mini1_call:
+    alias: Звонок на станцию
+    sequence:
+      - service: media_player.volume_set
+        data:
+          volume_level: 0
+        entity_id: media_player.yandex_station_ff98f029ae35fb014dc10be5
+      - delay: '00:00:05'
+      - service: media_player.play_media
+        data:
+          media_content_id: Сними трубку
+          media_content_type: command
+        entity_id: media_player.yandex_station_ff98f029ae35fb014dc10be5
+      - delay: '00:00:01'
+      - service: media_player.volume_set
+        data:
+          volume_level: 0.1
+        entity_id: media_player.yandex_station_ff98f029ae35fb014dc10be5
+    mode: single
+    icon: 'mdi:phone-classic'

@@ -1,0 +1,1071 @@
+- id: mqtt_service_simple
+  alias: '[mqtt] service simple'
+  trigger:
+  - platform: mqtt
+    topic: hass/simple
+  action:
+    service_template: '{{ trigger.payload_json.service }}'
+    data_template:
+      entity_id: '{{ trigger.payload_json.entity_id }}'
+- id: mqtt_script
+  alias: '[mqtt] start script'
+  trigger:
+  - platform: mqtt
+    topic: hass/script
+  action:
+    service: script.turn_on
+    data_template:
+      entity_id: script.{{ trigger.payload }}
+- id: room_temperature
+  alias: Температура в гостиной
+  trigger:
+    platform: state
+    entity_id: sensor.0x00158d000227d566_temperature
+  action:
+    service: mqtt.publish
+    data:
+      topic: sensor/room/temperature
+      payload_template: '{{ states("sensor.0x00158d000227d566_temperature") }}'
+      retain: true
+- id: bedroom_temperature
+  alias: Температура в спальне
+  trigger:
+    platform: state
+    entity_id: sensor.0x00158d0001d5c48b_temperature
+  action:
+    service: mqtt.publish
+    data:
+      topic: sensor/bedroom/temperature
+      payload_template: '{{ states("sensor.0x00158d0001d5c48b_temperature") }}'
+      retain: true
+- id: room_temperature_available
+  alias: Доступность температуры в гостиной
+  description: ''
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition: []
+  action:
+  - data:
+      topic: sensor/room/available
+      payload: 'true'
+      retain: true
+    service: mqtt.publish
+- id: bedroom_temperature_available
+  alias: Доступность температуры в спальне
+  description: ''
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition: []
+  action:
+  - data:
+      topic: sensor/bedroom/available
+      payload: 'true'
+      retain: true
+    service: mqtt.publish
+- id: 588889451f0c4d4a86418f25f368a2fa
+  alias: Спальня левая
+  trigger:
+  - entity_id: sensor.0x00158d000170c691_click
+    platform: state
+    to: left
+  action:
+  - data:
+      entity_id:
+      - light.yeelight_color1_34ce00824b3d
+    service: light.toggle
+- id: 1584c6521d0f49cf900453982bc5e3c9
+  alias: Спальня правая
+  trigger:
+  - entity_id: sensor.0x00158d000170c691_click
+    platform: state
+    to: right
+  action:
+  - data:
+      entity_id:
+      - light.yeelight_color1_34ce0082557b
+      - light.yeelight_color1_34ce008501fe
+    service: light.toggle
+- id: dd6b992e9178458bb3b5f41c9c859e3a
+  alias: Спальня обе
+  trigger:
+  - entity_id: sensor.0x00158d000170c691_click
+    platform: state
+    to: both
+  action:
+  - data:
+      entity_id:
+      - light.room_light_4ch_relay1
+      - light.room_light_4ch_relay2
+      - light.room_light_4ch_relay3
+      - light.room_light_4ch_relay4
+      - light.koridor
+      - light.kitchen_1
+      - light.kitchen_2
+      - light.kitchen_3
+      - light.kitchen_4
+      - light.prikhozhaia
+      - light.tualet
+      - light.yeelight_color1_34ce00824b3d
+      - light.yeelight_color1_34ce0082557b
+      - light.yeelight_color1_34ce008501fe
+    service: homeassistant.turn_off
+  mode: single
+- id: mqtt_devlamp_speed
+  alias: '[mqtt] devlamp speed'
+  trigger:
+  - platform: mqtt
+    topic: homeassistant/light/devlamp/state
+  action:
+    service: input_number.set_value
+    data_template:
+      entity_id: input_number.devlamp_speed
+      value: '{{ trigger.payload_json.speed }}'
+- id: mqtt_devlamp_scale
+  alias: '[mqtt] devlamp scale'
+  trigger:
+  - platform: mqtt
+    topic: homeassistant/light/devlamp/state
+  action:
+    service: input_number.set_value
+    data_template:
+      entity_id: input_number.devlamp_scale
+      value: '{{ trigger.payload_json.scale }}'
+- id: slider_devlamp_speed
+  alias: '[slider] Devlamp speed'
+  trigger:
+    platform: state
+    entity_id: input_number.devlamp_speed
+  action:
+    service: mqtt.publish
+    data_template:
+      topic: homeassistant/light/devlamp/set
+      payload: '{"speed": {{ states("input_number.devlamp_speed") | int }}}'
+- id: slider_devlamp_scale
+  alias: '[slider] Devlamp scale'
+  trigger:
+    platform: state
+    entity_id: input_number.devlamp_scale
+  action:
+    service: mqtt.publish
+    data_template:
+      topic: homeassistant/light/devlamp/set
+      payload: '{"scale": {{ states("input_number.devlamp_scale") | int }}}'
+- id: mqtt_darialamp_speed
+  alias: '[mqtt] darialamp speed'
+  trigger:
+  - platform: mqtt
+    topic: homeassistant/light/darialamp/state
+  action:
+    service: input_number.set_value
+    data_template:
+      entity_id: input_number.darialamp_speed
+      value: '{{ trigger.payload_json.speed }}'
+- id: mqtt_darialamp_scale
+  alias: '[mqtt] darialamp scale'
+  trigger:
+  - platform: mqtt
+    topic: homeassistant/light/darialamp/state
+  action:
+    service: input_number.set_value
+    data_template:
+      entity_id: input_number.darialamp_scale
+      value: '{{ trigger.payload_json.scale }}'
+- id: slider_darialamp_speed
+  alias: '[slider] darialamp speed'
+  trigger:
+    platform: state
+    entity_id: input_number.darialamp_speed
+  action:
+    service: mqtt.publish
+    data_template:
+      topic: homeassistant/light/darialamp/set
+      payload: '{"speed": {{ states("input_number.darialamp_speed") | int }}}'
+- id: slider_darialamp_scale
+  alias: '[slider] darialamp scale'
+  trigger:
+    platform: state
+    entity_id: input_number.darialamp_scale
+  action:
+    service: mqtt.publish
+    data_template:
+      topic: homeassistant/light/darialamp/set
+      payload: '{"scale": {{ states("input_number.darialamp_scale") | int }}}'
+- id: mqtt_bedlamp_speed
+  alias: '[mqtt] bedlamp speed'
+  trigger:
+  - platform: mqtt
+    topic: homeassistant/light/bedlamp/state
+  action:
+    service: input_number.set_value
+    data_template:
+      entity_id: input_number.bedlamp_speed
+      value: '{{ trigger.payload_json.speed }}'
+- id: mqtt_bedlamp_scale
+  alias: '[mqtt] bedlamp scale'
+  trigger:
+  - platform: mqtt
+    topic: homeassistant/light/bedlamp/state
+  action:
+    service: input_number.set_value
+    data_template:
+      entity_id: input_number.bedlamp_scale
+      value: '{{ trigger.payload_json.scale }}'
+- id: slider_davlamp_speed
+  alias: '[slider] bedlamp speed'
+  trigger:
+    platform: state
+    entity_id: input_number.bedlamp_speed
+  action:
+    service: mqtt.publish
+    data_template:
+      topic: homeassistant/light/bedlamp/set
+      payload: '{"speed": {{ states("input_number.bedlamp_speed") | int }}}'
+- id: slider_davlamp_scale
+  alias: '[slider] bedlamp scale'
+  trigger:
+    platform: state
+    entity_id: input_number.bedlamp_scale
+  action:
+    service: mqtt.publish
+    data_template:
+      topic: homeassistant/light/bedlamp/set
+      payload: '{"scale": {{ states("input_number.bedlamp_scale") | int }}}'
+- id: '1578341321156'
+  alias: Ночная подсветка при движении
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.0x00158d0001660f55_occupancy
+    from: 'off'
+    platform: state
+    to: 'on'
+  - entity_id: sensor.illumination_34ce008141af
+    platform: state
+  condition:
+  - above: '0'
+    below: '300'
+    condition: numeric_state
+    entity_id: sensor.illumination_34ce008141af
+  - condition: state
+    entity_id: binary_sensor.0x00158d0001660f55_occupancy
+    state: 'on'
+  - condition: state
+    entity_id: light.xiaomi_gateway_192_168_1_237
+    state: 'off'
+  action:
+  - data:
+      brightness_pct: 40
+      transition: 3
+    entity_id: light.xiaomi_gateway_192_168_1_237
+    service: light.turn_on
+- id: '1578341470584'
+  alias: Выключить подсветку
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.0x00158d0001660f55_occupancy
+    for: 00:02:00
+    from: 'on'
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - data:
+      transition: 3
+    entity_id: light.xiaomi_gateway_192_168_1_237
+    service: light.turn_off
+- id: '1578421830144'
+  alias: Закрыть зверь
+  description: ''
+  trigger:
+  - entity_id: switch.doorlock_relay
+    for: 00:00:10
+    from: 'on'
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - entity_id: switch.doorlock_relay
+    service: switch.turn_on
+- id: '1578489596541'
+  alias: Дверь не закрыта
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.0x00158d0001c30435_contact
+    for: 00:01:00
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: group.persons
+    state: home
+  - condition: state
+    entity_id: binary_sensor.0x00158d0001c30435_contact
+    state: 'on'
+  action:
+  - data:
+      volume_level: 0.8
+    entity_id: media_player.yandex_station_ff98f029ae35fb014dc10be5
+    service: media_player.volume_set
+  - data:
+      media_content_id: Внимание-внимание! Дверь не закрыта!
+      media_content_type: text
+    entity_id: media_player.yandex_station_ff98f029ae35fb014dc10be5
+    service: media_player.play_media
+  - data:
+      volume_level: 0.5
+    entity_id: media_player.yandex_station_ff98f029ae35fb014dc10be5
+    service: media_player.volume_set
+- id: '1578597249289'
+  alias: Уведомление двери
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.0x00158d0001c30435_contact
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: group.persons
+    state: not_home
+  action:
+  - data:
+      message: Открыта дверь
+      title: Безопасность
+    service: notify.hass_push
+  - data:
+      message: Открыта дверь
+      title: Безопасность
+    service: persistent_notification.create
+- id: '1578864593994'
+  alias: Домофон
+  description: ''
+  trigger:
+  - entity_id: input_boolean.intercom_open_once
+    from: 'on'
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - service: rest_command.intercom_open
+  - entity_id: input_boolean.intercom_open_once
+    service: input_boolean.turn_on
+- id: '1579022266953'
+  alias: Ушли из дома
+  description: ''
+  trigger:
+  - entity_id: group.persons
+    for: 00:00:30
+    from: home
+    platform: state
+    to: not_home
+  condition: []
+  action:
+  - data:
+      entity_id:
+      - group.room_lights
+      - group.sleeping_lights
+      - group.kitchen_lights
+      - light.yeelight_mibt4
+      - light.yeelight_mibt3
+      - light.yeelight_mibt2
+      - light.yeelight_mibt1
+    service: homeassistant.turn_off
+  mode: single
+- id: '1579023863526'
+  alias: Пришли домой
+  description: ''
+  trigger:
+  - entity_id: group.persons
+    from: not_home
+    platform: state
+    to: home
+  condition: []
+  action:
+  - entity_id: light.yeelight_mibt2
+    service: light.turn_on
+  mode: single
+- id: '1579024024026'
+  alias: Включить свет в гостинной
+  description: ''
+  trigger:
+  - entity_id: sensor.0x00158d0001333b64_action
+    platform: state
+    to: release
+  condition:
+  - condition: state
+    entity_id: group.room_lights
+    state: 'off'
+  action:
+  - entity_id: light.room_light_4ch_relay3
+    service: light.turn_on
+- id: '1579116030914'
+  alias: Пожарка
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.0x00158d00013074bd_smoke
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      message: Пожарная сигнализация
+      title: Безопасность
+    service: notify.hass_push
+  - data:
+      message: Внимание! Пожарная сигнализация!
+    service: notify.telegram_group
+- id: '1579123850287'
+  alias: Выключить свет в гостинной
+  description: ''
+  trigger:
+  - entity_id: sensor.0x00158d0001333b64_action
+    platform: state
+    to: release
+  condition:
+  - condition: state
+    entity_id: group.room_lights
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.room_was_hold
+    state: 'off'
+  action:
+  - entity_id: group.room_lights
+    service: homeassistant.turn_off
+- id: '1579157095379'
+  alias: Не выключать свет в спальне
+  description: ''
+  trigger:
+  - entity_id: switch.0x00158d0001333b64_switch
+    platform: state
+    to: 'off'
+  - event: start
+    platform: homeassistant
+  condition: []
+  action:
+  - entity_id: switch.0x00158d0001333b64_switch
+    service: switch.turn_on
+  mode: single
+- id: '1579197623880'
+  alias: Уведомление движения
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.0x00158d0001660f55_occupancy
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: group.persons
+    state: not_home
+  action:
+  - data:
+      message: Обнаружено движение
+      title: Безопасность
+    service: notify.hass_push
+  - data:
+      message: Обнаружено движение
+      title: Безопасность
+    service: persistent_notification.create
+- id: '1580147297770'
+  alias: Движение кухня вкл
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.0x00158d00045211d1_occupancy
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition:
+  - below: '70'
+    condition: numeric_state
+    entity_id: sensor.0x00158d00045211d1_illuminance
+  - condition: state
+    entity_id: light.kukhnia
+    state: 'off'
+  action:
+  - data:
+      brightness: 150
+      transition: 2
+    entity_id: light.kitchen_rgb_2
+    service: light.turn_on
+- id: '1580147750205'
+  alias: Движение кухня выкл
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.0x00158d00045211d1_occupancy
+    for: 00:02:00
+    from: 'on'
+    platform: state
+    to: 'off'
+  - entity_id: light.kukhnia
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      transition: 3
+    entity_id: light.kitchen_rgb_2
+    service: light.turn_off
+- id: '1580575396575'
+  alias: Счетчик горячей воды ванная
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.water_consumption_bathroom_hot
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - entity_id: counter.water_consumption_bathroom_hot
+    service: counter.increment
+- id: '1580575454355'
+  alias: Счетчик воды ванная холодная
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.water_consumption_bathroom_cold
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - entity_id: counter.water_consumption_bathroom_cold
+    service: counter.increment
+- id: '1580575508320'
+  alias: Счетчик воды кухня горячая
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.water_consumption_kitchen_hot
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - entity_id: counter.water_consumption_kitchen_hot
+    service: counter.increment
+- id: '1580575600577'
+  alias: Счетчик воды кухня холодная
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.water_consumption_kitchen_cold
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - entity_id: counter.water_consumption_kitchen_cold
+    service: counter.increment
+- id: '1580575727532'
+  alias: Счетчик воды кухня фильтр
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.water_consumption_kitchen_clean
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - entity_id: counter.water_consumption_kitchen_clean
+    service: counter.increment
+- id: '1582133052572'
+  alias: Включить весь свет в гостинной 1/2
+  description: ''
+  trigger:
+  - entity_id: sensor.0x00158d0001333b64_action
+    platform: state
+    to: hold
+  condition: []
+  action:
+  - entity_id: group.room_lights
+    service: homeassistant.turn_on
+  - entity_id: input_boolean.room_was_hold
+    service: input_boolean.turn_on
+- id: '1582133846020'
+  alias: Включить весь свет в гостинной 2/2
+  description: ''
+  trigger:
+  - entity_id: sensor.0x00158d0001333b64_action
+    platform: state
+    to: release
+  condition:
+  - condition: state
+    entity_id: input_boolean.room_was_hold
+    state: 'on'
+  action:
+  - entity_id: input_boolean.room_was_hold
+    service: input_boolean.turn_off
+- id: '1591004302070'
+  alias: Алиса Покажи камеру двери
+  description: ''
+  trigger:
+  - event_data:
+      text: Покажи камеру двери
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Покажи камеру подъезда
+    event_type: yandex_intent
+    platform: event
+  - event_data:
+      text: Покажи камеру площадки
+    event_type: yandex_intent
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: script.1591261689907
+    service: script.turn_on
+- id: '1591124408704'
+  alias: Telegram Camera
+  description: ''
+  trigger:
+  - event_data:
+      command: /camera
+    event_type: telegram_command
+    platform: event
+  condition: []
+  action:
+  - data:
+      filename: /config/www/home/door.jpg
+    entity_id: camera.outdoor_ffmpeg
+    service: camera.snapshot
+  - data:
+      duration: 2
+      filename: /config/www/home/door.mp4
+      lookback: 3
+    entity_id: camera.outdoor
+    service: camera.record
+  - delay: 00:00:02
+  - data_template:
+      caption: Площадка
+      file: /config/www/home/door.jpg
+      inline_keyboard:
+      - Открыть дверь:/door_open
+      target: '{{ trigger.event.data.chat_id | int }}'
+    service: telegram_bot.send_photo
+  - delay: 00:00:20
+  - data_template:
+      caption: Площадка
+      file: /config/www/home/door.mp4
+      inline_keyboard:
+      - Открыть дверь:/door_open
+      target: '{{ trigger.event.data.chat_id | int }}'
+    service: telegram_bot.send_video
+  mode: single
+- id: '1591129655222'
+  alias: Telegram Intercom Camera
+  description: ''
+  trigger:
+  - event_data:
+      command: /intercom
+    event_type: telegram_command
+    platform: event
+  condition: []
+  action:
+  - data_template:
+      caption: 'Камера из wifi: {{ states("input_text.local_url") }}/lovelace/camera\_intercom
+
+        Камера из интернета: {{ states("input_text.remote_url") }}/lovelace/camera\_intercom
+
+        '
+      inline_keyboard:
+      - Открыть домофон:/intercom_open
+      target: '{{ trigger.event.data.chat_id | int }}'
+      url: '{{ states("input_text.intercom_preview_url") }}'
+    service: telegram_bot.send_photo
+  mode: single
+- id: '1591129770739'
+  alias: Telegram Intercom Open
+  description: ''
+  trigger:
+  - event_data:
+      data: /intercom_open
+    event_type: telegram_callback
+    platform: event
+  condition: []
+  action:
+  - service: esphome.domofon_accept_call
+  - entity_id: switch.intercom_switch
+    service: switch.turn_off
+  - data_template:
+      callback_query_id: '{{ trigger.event.data.id }}'
+      message: Домофон открыт!
+    service: telegram_bot.answer_callback_query
+  mode: single
+- id: '1591131704830'
+  alias: Telegram Door Open
+  description: ''
+  trigger:
+  - event_data:
+      data: /door_open
+    event_type: telegram_callback
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.doorlock_relay
+    service: switch.turn_off
+  - data_template:
+      callback_query_id: '{{ trigger.event.data.id }}'
+      message: Дверь открыта!
+    service: telegram_bot.answer_callback_query
+- id: '1591733432786'
+  alias: TF Intercom Person
+  description: ''
+  trigger:
+  - encoding: ''
+    platform: mqtt
+    topic: frigate/intercom/person/snapshot
+  condition: []
+  action:
+  - data:
+      filename: /config/www/home/intercom_tf_last.jpg
+    entity_id: camera.camera_intercom_last_person
+    service: camera.snapshot
+  - data: {}
+    entity_id: image_processing.intercom_deepstack
+    service: image_processing.scan
+  - delay: 00:00:01
+  - data_template:
+      message: Telegram
+      data:
+        photo:
+          caption: TensorFlow Intercom Last
+          file: /config/www/home/intercom_tf_last.jpg
+    service: notify.telegram_tf
+  - data_template:
+      message: Telegram
+      data:
+        photo:
+          caption: TensorFlow Intercom Best
+          url: http://192.168.1.111:5000/intercom/person/best.jpg
+    service: notify.telegram_tf
+- id: '1591733432787'
+  alias: TF Door Person
+  description: ''
+  trigger:
+  - encoding: ''
+    platform: mqtt
+    topic: frigate/door/person/snapshot
+  condition: []
+  action:
+  - data:
+      filename: /config/www/home/door_tf_last.jpg
+    entity_id: camera.camera_door_last_person
+    service: camera.snapshot
+  - data: {}
+    entity_id: image_processing.outdoor_deepstack
+    service: image_processing.scan
+  - delay: 00:00:01
+  - data_template:
+      message: Telegram
+      data:
+        photo:
+          caption: TensorFlow Door Last
+          file: /config/www/home/door_tf_last.jpg
+    service: notify.telegram_tf
+  - data_template:
+      message: Telegram
+      data:
+        photo:
+          caption: TensorFlow Door Best
+          url: http://192.168.1.111:5000/door/person/best.jpg
+    service: notify.telegram_tf
+- id: '1591733432788'
+  alias: TF Indoor Person
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: frigate/indoor/person/snapshot
+    encoding: ''
+  condition: []
+  action:
+  - data_template:
+      message: Telegram
+      data:
+        photo:
+          caption: TensorFlow Indoor
+          url: http://192.168.1.111:5000/indoor/person/best.jpg
+    service: notify.telegram_tf
+  - delay: 00:00:01
+  - data_template:
+      message: Telegram
+      data:
+        photo:
+          caption: TensorFlow Indoor
+          url: http://192.168.1.111:5000/indoor/person/best.jpg
+    service: notify.telegram_tf
+- id: '1591799724905'
+  alias: Deepstack Detect Face
+  description: ''
+  trigger:
+  - event_data: {}
+    event_type: image_processing.detect_face
+    platform: event
+  condition: []
+  action:
+  - delay: 00:00:01
+  - data_template:
+      message: Telegram
+      data:
+        photo:
+          caption: Person {{ trigger.event.data.name }} detected (with {{ trigger.event.data.confidence
+            }}% confidence)
+          file: /config/www/{{ trigger.event.data.entity_id | replace(".", "/") }}_latest.jpg
+    service: notify.telegram_tf
+  mode: single
+- id: '1592165000787'
+  alias: Intercom Auto Accept
+  description: ''
+  trigger:
+  - entity_id: sensor.intercom_call
+    platform: state
+    to: started
+  condition:
+  - condition: state
+    entity_id: input_boolean.intercom_open_auto
+    state: 'on'
+  action:
+  - data: {}
+    service: rest_command.intercom_accept
+  - data: {}
+    entity_id: switch.intercom_switch
+    service: switch.turn_off
+  - service: rest_command.intercom_reject
+    data: {}
+  - data: {}
+    entity_id: input_boolean.intercom_open_auto
+    service: input_boolean.turn_off
+  mode: single
+- id: '1592165080547'
+  alias: Intercom Incoming Call
+  description: ''
+  trigger:
+  - entity_id: sensor.intercom_call
+    platform: state
+    to: started
+  condition: []
+  action:
+  - data_template:
+      data:
+        inline_keyboard:
+        - Открыть домофон:/intercom_open
+        photo:
+          caption: Звонок в домофон
+          url: '{{ states("input_text.intercom_preview_url") }}'
+      message: Домофон
+    service: notify.telegram_group
+  - data:
+      filename: /config/www/home/intercom.jpg
+    entity_id: camera.intercom
+    service: camera.snapshot
+  - data:
+      duration: 2
+      filename: /config/www/home/intercom.mp4
+      lookback: 1
+    entity_id: camera.intercom
+    service: camera.record
+  - data_template:
+      data:
+        inline_keyboard:
+        - Открыть домофон:/intercom_open
+        photo:
+          caption: Домофон
+          file: /config/www/home/intercom.jpg
+      message: Домофон
+    service: notify.telegram_group
+  - delay: 00:00:15
+  - data_template:
+      data:
+        inline_keyboard:
+        - Открыть домофон:/intercom_open
+        video:
+          caption: Домофон
+          file: /config/www/home/intercom.mp4
+      message: Домофон
+    service: notify.telegram_group
+  mode: single
+- id: '1592215155213'
+  alias: Холодильник
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.0x00158d0001bb4d8d_contact
+    for: 00:00:05
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data_template:
+      entity_id: media_player.kitchen_speaker
+      message: 'tatyana_abramova##{{ [ "Хватит жрать", "Ты пожиреешь об этом!", "Купальник
+        не налезет" ] | random }}
+
+        '
+    service: tts.yandex_api_ru_say
+- id: '1592415985376'
+  alias: Холодильник долго открыт
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.0x00158d0001bb4d8d_contact
+    for: 00:01:00
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data_template:
+      entity_id: media_player.kitchen_speaker
+      message: 'tatyana_abramova##{{ [ "Это тебе не шкаф!", "Закрой кладовку!", "Весь
+        аромат выветришь!" ] | random }}
+
+        '
+    service: tts.yandex_api_ru_say
+- id: '1594065837437'
+  alias: Алиса Телеграм
+  description: ''
+  trigger:
+  - event_data: {}
+    event_type: telegram_text
+    platform: event
+  condition:
+  - condition: template
+    value_template: '{{ trigger.event.data.text.lower().startswith("алиса") }}'
+  action:
+  - data_template:
+      media_content_id: '{{ trigger.event.data.text }}'
+      media_content_type: question
+    entity_id: media_player.yandex_station_ff98f029ae35fb014dc10be5
+    service: media_player.play_media
+- id: '1594120332766'
+  alias: Увлажнитель нет воды
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.room_humidifier_thirst
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      message: В увлажнителе закончилась вода
+    service: notify.telegram_group
+- id: '1600025470949'
+  alias: Пульт Спальня 8
+  description: ''
+  trigger:
+  - device_id: 90bdb858fb404b6582d72fd522c68e45
+    discovery_id: 0x00124b00220e17fc action_button_8_single
+    domain: mqtt
+    platform: device
+    subtype: button_8_single
+    type: action
+  condition: []
+  action:
+  - data: {}
+    entity_id: light.yeelight_color1_34ce00824b3d
+    service: light.toggle
+  mode: single
+- id: '1600025582071'
+  alias: Пульт спальня 7
+  description: ''
+  trigger:
+  - device_id: 90bdb858fb404b6582d72fd522c68e45
+    discovery_id: 0x00124b00220e17fc action_button_7_single
+    domain: mqtt
+    platform: device
+    subtype: button_7_single
+    type: action
+  condition: []
+  action:
+  - data: {}
+    entity_id: light.yeelight_color1_34ce0082557b
+    service: light.toggle
+  mode: single
+- id: '1600025633971'
+  alias: Пульт спальня 6
+  description: ''
+  trigger:
+  - device_id: 90bdb858fb404b6582d72fd522c68e45
+    discovery_id: 0x00124b00220e17fc action_button_6_single
+    domain: mqtt
+    platform: device
+    subtype: button_6_single
+    type: action
+  condition: []
+  action:
+  - data: {}
+    entity_id: light.yeelight_color1_34ce008501fe
+    service: light.toggle
+  mode: single
+- id: '1600025909997'
+  alias: Пульт спальня 5
+  description: ''
+  trigger:
+  - device_id: 90bdb858fb404b6582d72fd522c68e45
+    discovery_id: 0x00124b00220e17fc action_button_5_single
+    domain: mqtt
+    platform: device
+    subtype: button_5_single
+    type: action
+  condition: []
+  action:
+  - data: {}
+    entity_id: group.sleeping_lights
+    service: homeassistant.toggle
+  mode: single
+- id: '1600026177419'
+  alias: Пульт спальня 4
+  description: ''
+  trigger:
+  - device_id: 90bdb858fb404b6582d72fd522c68e45
+    discovery_id: 0x00124b00220e17fc action_button_4_single
+    domain: mqtt
+    platform: device
+    subtype: button_4_single
+    type: action
+  condition: []
+  action:
+  - data: {}
+    entity_id: light.bedlamp
+    service: light.toggle
+  mode: single
+- id: '1600026212510'
+  alias: Пульт спальня 3
+  description: ''
+  trigger:
+  - device_id: 90bdb858fb404b6582d72fd522c68e45
+    discovery_id: 0x00124b00220e17fc action_button_3_single
+    domain: mqtt
+    platform: device
+    subtype: button_3_single
+    type: action
+  condition: []
+  action:
+  - data: {}
+    entity_id: light.darialamp
+    service: light.toggle
+  mode: single
+- id: '1600087421287'
+  alias: Не выключать свет в гостиной
+  description: ''
+  trigger:
+  - entity_id: switch.0x158d0001333b64_switch
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.0x158d0001333b64_switch
+    service: switch.turn_on
+  mode: single
+- id: '1613395587572'
+  alias: ZHA - Mijia Wireless Remote Switch (WXKG01LM)
+  description: ''
+  use_blueprint:
+    path: carlosmesquita/zha-xiaomi-mijia-round-wireless-switch-wxkg01lm-lumi-sensor-switch.yaml
+    input:
+      holdtime: '1'
+      mijia_round_switch: c9cec848e885b6a12e2b47a0e0ef4427
+      remote_button_short_press:
+      - event: lumi_press
+        event_data:
+          mode: single

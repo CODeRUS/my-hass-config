@@ -1,0 +1,30 @@
+- name: christmas_tree_solid
+  entities:
+    light.anavi_miracle_controller_led2:
+      state: on
+      effect: "solid"
+- name: christmas_tree_rainbow
+  entities:
+    light.anavi_miracle_controller_led2:
+      state: on
+      effect: "rainbow"
+- name: christmas_tree_sinelon
+  entities:
+    light.anavi_miracle_controller_led2:
+      state: on
+      effect: "sinelon"
+- name: christmas_tree_confetti
+  entities:
+    light.anavi_miracle_controller_led2:
+      state: on
+      effect: "confetti"
+- name: christmas_tree_bpm
+  entities:
+    light.anavi_miracle_controller_led2:
+      state: on
+      effect: "bpm"
+- name: christmas_tree_juggle
+  entities:
+    light.anavi_miracle_controller_led2:
+      state: on
+      effect: "juggle"

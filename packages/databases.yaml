@@ -1,0 +1,41 @@
+history:
+  exclude: &exclude_anchor
+    domains:
+      - automation
+      - device_tracker
+      - input_boolean
+      - input_number
+      - input_select
+      - input_text
+      - media_player
+      - updater
+      - zigbee2mqtt_networkmap
+      - remote
+      - script
+      - persistent_notification
+    entities:
+      - sensor.hacs
+      - sensor.kitchen_rgb_brightness
+      - sensor.lobby_rgb_brightness
+      - sensor.xiaomi_map
+
+logbook:
+  exclude:
+    <<: *exclude_anchor
+
+logger:
+  default: debug
+
+influxdb:
+  username: homeassistant
+  password: !secret influxdb_password
+  max_retries: 3
+  default_measurement: state
+  exclude:
+    <<: *exclude_anchor
+
+recorder:
+  db_url: postgres://@/hass
+  purge_keep_days: 30
+  exclude:
+    <<: *exclude_anchor

@@ -1,0 +1,116 @@
+input_number:
+  mikettle_set_temp:
+    name: Температура нагрева
+    initial: 40
+    min: 40
+    max: 90
+    step: 1
+  mikettle_set_time:
+    name: Поддерживать температуру
+    initial: 0
+    min: 0
+    max: 12
+    step: 0.5
+
+automation:
+- alias: Чайник температура
+  description: ''
+  trigger:
+  - entity_id: input_number.mikettle_set_temp
+    platform: state
+  - entity_id: input_boolean.mikettle_warm_mode
+    platform: state
+  condition: []
+  action:
+  - data_template:
+      payload: "{\n  \"mode\": \"{{ 'boil' if is_state('input_boolean.mikettle_warm_mode',\
+        \ 'on') else 'heat' }}\",\n  \"temperature\": {{ states(\"input_number.mikettle_set_temp\"\
+        )\n}} }"
+      topic: cybele/kettle/087cbe84e398/set_keep_warm_parameters
+    service: mqtt.publish
+- alias: Чайник время
+  description: ''
+  trigger:
+  - entity_id: input_number.mikettle_set_time
+    platform: state
+  condition: []
+  action:
+  - data_template:
+      payload: '{ "time": {{ states("input_number.mikettle_set_time")}} }'
+      topic: cybele/kettle/087cbe84e398/set_keep_warm_time_limit
+    service: mqtt.publish
+- alias: '[mqtt] Чайник'
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: cybele/kettle/087cbe84e398/attributes
+  condition: []
+  action:
+  - data_template:
+      entity_id: input_boolean.mikettle_refill_mode
+    service_template: "{% if trigger.payload_json.keep_warm_refill_mode == \"keep_warm\"\
+      \ %}\n  input_boolean.turn_on\n{% else %}\n  input_boolean.turn_off\n{% endif\
+      \ %}\n"
+  - data_template:
+      entity_id: input_number.mikettle_set_time
+      value: '{{ trigger.payload_json.keep_warm_time_limit }}'
+    service: input_number.set_value
+  - data_template:
+      entity_id: input_number.mikettle_set_temp
+      value: '{{ trigger.payload_json.keep_warm_temperature }}'
+    service: input_number.set_value
+  - data_template:
+      entity_id: input_boolean.mikettle_warm_mode
+    service_template: "{% if trigger.payload_json.keep_warm_type == \"boil_and_cool_down\"\
+      \ %}\n  input_boolean.turn_on\n{% else %}\n  input_boolean.turn_off\n{% endif\
+      \ %}\n"
+- alias: Чайник действие при возврате
+  description: ''
+  trigger:
+  - entity_id: input_boolean.mikettle_refill_mode
+    platform: state
+  condition: []
+  action:
+  - data_template:
+      payload: '{ "mode":  "{{ ''keep_warm'' if is_state(''input_boolean.mikettle_refill_mode'',
+        ''on'') else ''turn_off'' }}" }'
+      topic: cybele/kettle/087cbe84e398/set_keep_warm_refill_mode
+    service: mqtt.publish
+- alias: '[mqtt] Чайник скипел'
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: cybele/kettle/087cbe84e398/attributes
+  condition:
+  - condition: template
+    value_template: '{{ trigger.payload_json.action == "cooling" }}'
+  - condition: state
+    entity_id: input_boolean.mikettle_boil_triggered
+    state: 'off'
+  action:
+  - data:
+      message: Скипел
+      title: Чайник
+    service: persistent_notification.create
+  - entity_id: input_boolean.mikettle_boil_triggered
+    service: input_boolean.turn_on
+  - data:
+      message: Закипел
+      title: Чайник
+    service: notify.hass_push
+  - entity_id: input_boolean.mikettle_warm_mode
+    service: input_boolean.turn_off
+- alias: '[mqtt] Чайник закипает'
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: cybele/kettle/087cbe84e398/attributes
+  condition:
+  - condition: template
+    value_template: '{{ trigger.payload_json.action == "heating" }}'
+  - condition: state
+    entity_id: input_boolean.mikettle_boil_triggered
+    state: 'on'
+  action:
+  - entity_id: input_boolean.mikettle_boil_triggered
+    service: input_boolean.turn_off

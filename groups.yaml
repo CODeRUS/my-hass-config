@@ -1,0 +1,59 @@
+persons:
+  name: Persons
+  entities:
+    - person.andrey
+    - person.daria
+room_lights:
+  name: Room lights
+  entities:
+    - light.room_light_4ch_relay1
+    - light.room_light_4ch_relay2
+    - light.room_light_4ch_relay3
+    - light.room_light_4ch_relay4
+room_lights_all:
+  name: Room lights all
+  all: true
+  entities:
+    - light.room_light_4ch_relay1
+    - light.room_light_4ch_relay2
+    - light.room_light_4ch_relay3
+    - light.room_light_4ch_relay4
+sleeping_lights:
+  name: Sleeping Room lights
+  entities:
+    - light.yeelight_color1_34ce00824b3d
+    - light.yeelight_color1_34ce0082557b
+    - light.yeelight_color1_34ce008501fe
+sleeping_lights_all:
+  name: Sleeping Room lights all
+  all: true
+  entities:
+    - light.yeelight_color1_34ce00824b3d
+    - light.yeelight_color1_34ce0082557b
+    - light.yeelight_color1_34ce008501fe
+kitchen_lights:
+  name: Kitchen lights
+  entities:
+    - light.kitchen_light_4ch_relay1
+    - light.kitchen_light_4ch_relay2
+    - light.kitchen_light_4ch_relay3
+    - light.kitchen_light_4ch_relay4
+kitchen_lights_all:
+  name: Kitchen lights all
+  all: true
+  entities:
+    - light.kitchen_light_4ch_relay1
+    - light.kitchen_light_4ch_relay2
+    - light.kitchen_light_4ch_relay3
+    - light.kitchen_light_4ch_relay4
+bathroom_lights:
+  name: Bathtoom lights
+  entities:
+    - light.yeelight_mibt3
+    - light.yeelight_mibt4
+bathroom_lights_all:
+  name: Bathtoom lights all
+  all: true
+  entities:
+    - light.yeelight_mibt3
+    - light.yeelight_mibt4
